@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>メモ帳アプリ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>メモ帳アプリ</h1>
+    <textarea id="memo" placeholder="ここにメモを入力してください..."></textarea>
+    <br>
+    <button onclick="saveMemo()">保存</button>
+    <button onclick="loadMemo()">読み込み</button>
+    <button onclick="clearMemo()">クリア</button>
+
+    <script>
+        function saveMemo() {
+            const memo = document.getElementById('memo').value;
+            localStorage.setItem('memo', memo);
+            alert('メモを保存しました');
+        }
+
+        function loadMemo() {
+            const memo = localStorage.getItem('memo');
+            if (memo) {
+                document.getElementById('memo').value = memo;
+                alert('メモを読み込みました');
+            } else {
+                alert('保存されたメモがありません');
+            }
+        }
+
+        function clearMemo() {
+            localStorage.removeItem('memo');
+            document.getElementById('memo').value = '';
+            alert('メモをクリアしました');
+        }
+    </script>
+</body>
+</html>
