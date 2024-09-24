@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カレンダーアプリ</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .schedule {
+            display: none;
+            margin-top: 20px;
+        }
+        .schedule table {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>カレンダーアプリ</h1>
+    <div id="calendar"></div>
+    <div id="schedule" class="schedule">
+        <h2 id="schedule-date"></h2>
+        <table>
+            <tr>
+                <th>時間</th>
+                <th>予定</th>
+            </tr>
+            <script>
+                for (let hour = 0; hour < 24; hour++) {
+                    document.write(`<tr><td>${hour}:00</td><td></td></tr>`);
+                }
+            </script>
+        </table>
+    </div>
+    <script>
+        function generateCalendar(year, month) {
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            const date = new Date(year, month - 1, 1);
+            const days = ['日', '月', '火', '水', '木', '金', '土'];
+            let table = '<table><tr>';
+            for (let day of days) {
+                table += `<th>${day}</th>`;
+            }
+            table += '</tr><tr>';
+            for (let i = 0; i < date.getDay(); i++) {
+                table += '<td></td>';
+            }
+            while (date.getMonth() === month - 1) {
+                table += `<td onclick="showSchedule(${year}, ${month}, ${date.getDate()})">${date.getDate()}</td>`;
+                if (date.getDay() === 6) {
+                    table += '</tr><tr>';
+                }
+                date.setDate(date.getDate() + 1);
+            }
+            table += '</tr></table>';
+            calendar.innerHTML = table;
+        }
+
+        function showSchedule(year, month, day) {
+            const schedule = document.getElementById('schedule');
+            const scheduleDate = document.getElementById('schedule-date');
+            scheduleDate.textContent = `${year}年${month}月${day}日のスケジュール`;
+            schedule.style.display = 'block';
+        }
+
+        const today = new Date();
+        generateCalendar(today.getFullYear(), today.getMonth() + 1);
+    </script>
+</body>
+</html>
